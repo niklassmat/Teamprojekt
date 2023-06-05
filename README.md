@@ -1,1 +1,2 @@
 # Teamprojekt
+This repository is created for a student project. The projects is supported by Bosch Smart Home as they provide their products to us but all conclusiions and results are independant. The aim is to build a website which demonstartes Smart Home products. The data will be visualized and provide information about the included materials, emissions, envoronmental effects of the products, The current state of the project: https://niklassmat.github.io/Teamprojekt/
