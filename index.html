@@ -42,12 +42,22 @@
 <script>
     var loader = new THREE.ColladaLoader();
 
-    loader.load('model.dae', function (collada) {
-        var model = collada.scene;
-        scene.add(model);
-
-        animate();
-    });
+    loader.load('model.dae',
+        function (collada) {
+            var model = collada.scene;
+            scene.add(model);
+            animate();
+        },
+        // Function called when download progresses
+        function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        // Function called when download errors
+        function (error) {
+            console.log('An error happened');
+            console.log(error);
+        }
+    );
 </script>
 <script>
     function animate() {
