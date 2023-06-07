@@ -1,36 +1,39 @@
-var scene, camera, renderer, controls;
-var dae, loader;
+// Create a scene
+var scene = new THREE.Scene();
 
-function init() {
-    scene = new THREE.Scene();
+// Create a camera
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+camera.position.z = 2;
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
+// Create a Renderer
+var renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize( window.innerWidth, window.innerHeight );
 
-    renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('canvas').appendChild(renderer.domElement);
+// Append renderer to the body
+document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
+// Resize function
+window.addEventListener( 'resize', function () {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    renderer.setSize( width, height );
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+});
 
-    loader = new THREE.ColladaLoader();
-    loader.load('model.dae', function(collada) {
-        dae = collada.scene;
-        scene.add(dae);
-    });
+// GLTF Loader
+var loader = new THREE.GLTFLoader();
 
+loader.load( 'scene.gltf', function ( gltf ) {
+    scene.add( gltf.scene );
     animate();
-}
+}, undefined, function ( error ) {
+    console.error( error );
+});
 
+// Animation
 function animate() {
-    requestAnimationFrame(animate);
-
-    if(dae) {
-        dae.rotation.y += 0.01;
-    }
-
-    controls.update();
-    renderer.render(scene, camera);
+    requestAnimationFrame( animate );
+    renderer.render( scene, camera );
 }
 
-init();
